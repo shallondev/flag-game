@@ -34,6 +34,7 @@ async function displayFlagsWithCountryNames() {
         flagElement.removeEventListener('click', handleUserInput);
         flagElement.classList.remove('animate-ping');
     });
+    document.getElementById("countryId").classList.remove('animate-pulse');
 
     // Store random flag info in flagInfo array
     for (let i = 0; i < flagElements.length; i++) {
@@ -106,6 +107,7 @@ function handleUserInput(event) {
         flagElements.forEach(flag => {
             flag.classList.add('animate-ping');
         });
+        document.getElementById("countryId").classList.add('animate-pulse');
     }, 500)
 
     setTimeout(() => {
