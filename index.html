@@ -10,19 +10,20 @@
 
     <!-- Linking the script -->
     <script src="script.js"></script>
+    <script src="night.js"></script>
 
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/e308f5f709.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <!-- Nav Bar -->
-    <nav class="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-200">
+    <nav class="fixed w-full z-20 top-0 start-0 border-b border-gray-200">
         <div class="flex justify-between items-center px-24">
             <!-- Text on the left -->
             <div class="text-xl font-bold">Guess the Country</div>
             
             <!-- Button on the right -->
-            <button class="bg-white hover:bg-gray-100 text-black font-semibold py-2 m-2 px-4 rounded">
+            <button id="darkMode" class="hover:bg-gray-100 font-semibold py-2 m-2 px-4 rounded">
                 <i class="fas fa-moon"></i>
                 Dark Mode
             </button>
@@ -30,26 +31,28 @@
     </nav>
 
     <!-- Count Section -->
-    <section class="mt-16 mx-48">
-        <div class="flex items-center justify-between mb-4 px-20 py-10">
-            <!-- Count -->
-            <div class="relative">
-                <div class="text-xl font-bold">Correct: <span id="correctCount">0</span></div>
-            </div>
+    <section class="mt-16 md:mx-48">
+        <div class="flex flex-col md:flex-row items-center justify-between mb-4 md:px-20 py-10">
+            <!-- Correct Count -->
+            <div class="text-xl font-bold">Correct: <span id="correctCount">0</span></div>
 
+            <!-- Total Count (Mobile) -->
+            <div class="text-xl font-bold md:hidden">Total: <span id="totalCount1">0</span></div>
+
+            <!-- Country ID -->
             <p id="countryId" class="text-xl font-bold">Error Loading Countries...</p>
             
-            <!-- Total Count -->
-            <div class="text-xl font-bold">Total: <span id="totalCount">0</span></div>
+            <!-- Total Count (Desktop) -->
+            <div class="text-xl font-bold hidden md:block">Total: <span id="totalCount2">0</span></div>
         </div>
     </section>
 
     <!-- Flag Guess Section -->
-    <section class="mt-48 mx-48">
-        <div class="flex items-center justify-between mb-4 px-20 py-10" id="flags">
-            <div id="flag0" class="shadow-xl transition duration-300 ease-in-out transform hover:scale-105 checkbox cursor-pointer hover:border-blue-500 focus:outline-none focus:shadow-outline focus:border-blue-50"></div>
-            <div id="flag1" class="shadow-xl transition duration-300 ease-in-out transform hover:scale-105 checkbox cursor-pointer hover:border-blue-500 focus:outline-none focus:shadow-outline focus:border-blue-50"></div>
-            <div id="flag2" class="shadow-xl transition duration-300 ease-in-out transform hover:scale-105 checkbox cursor-pointer hover:border-blue-500 focus:outline-none focus:shadow-outline focus:border-blue-50"></div>
+    <section class="md:mt-48 md:mx-48 mx-24">
+        <div class="flex flex-col space-y-16 md:space-y-0 md:flex-row items-center justify-between mb-4 md:px-20" id="flags">
+            <div id="flag0" class="transition duration-300 ease-in-out transform hover:scale-105 checkbox cursor-pointer hover:border-blue-500 focus:outline-none focus:shadow-outline focus:border-blue-50"></div>
+            <div id="flag1" class="transition duration-300 ease-in-out transform hover:scale-105 checkbox cursor-pointer hover:border-blue-500 focus:outline-none focus:shadow-outline focus:border-blue-50"></div>
+            <div id="flag2" class="transition duration-300 ease-in-out transform hover:scale-105 checkbox cursor-pointer hover:border-blue-500 focus:outline-none focus:shadow-outline focus:border-blue-50"></div>
         </div>
     </section>
 

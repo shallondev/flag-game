@@ -1,3 +1,5 @@
+let flagsClickable = true;
+
 // Function to fetch flags and country names from REST Countries API
 async function fetchFlagsWithCountryNames() {
     try {
@@ -30,6 +32,7 @@ async function displayFlagsWithCountryNames() {
     // Remove existing event listeners
     flagElements.forEach(flagElement => {
         flagElement.removeEventListener('click', handleUserInput);
+        flagElement.classList.remove('animate-ping');
     });
 
     // Store random flag info in flagInfo array
@@ -55,8 +58,10 @@ async function displayFlagsWithCountryNames() {
 }
 
 function handleUserInput(event) {
+    flagsClickable = false;
     // You can handle user input here
     const clickedElement = event.target;
+    const flagElements = document.querySelectorAll('#flags > div');
     const clickedCountryName = clickedElement.alt.replace(' Flag', ''); // Extract country name from alt attribute
     
     // Check if the clicked country is the selected country
@@ -65,32 +70,48 @@ function handleUserInput(event) {
 
     // Add a text element above the border to indicate correctness
     const textElement = document.createElement('div');
-    textElement.classList.add('absolute', 'top-0', 'left-1/2', '-translate-x-1/2', '-mt-8', 'bg-white', 'px-2', 'py-1', 'rounded-lg');
+    textElement.classList.add('absolute', 'top-0', 'left-1/2', '-translate-x-1/2', '-mt-8', 'px-2', 'py-1', 'rounded-lg');
     textElement.innerText = correct ? 'Correct' : 'Incorrect';
     textElement.style.color = correct ? 'green' : 'red';
     clickedElement.parentElement.appendChild(textElement);
 
+    if (!flagsClickable) {
+        flagElements.forEach(flagElement => {
+            flagElement.removeEventListener('click', handleUserInput);
+        })
+    }
+
     // Add border and glow effect based on correctness
     if (correct) {
-        clickedElement.classList.add('border-4', 'border-green-300', 'shadow-outline-green');
+        clickedElement.classList.add('border-4', 'border-green-500', 'shadow-outline-green');
         let correctCount = parseInt(document.getElementById("correctCount").innerHTML);
         document.getElementById("correctCount").innerHTML = correctCount + 1;
     } else {
-        clickedElement.classList.add('border-4', 'border-red-300', 'shadow-outline-red');
+        clickedElement.classList.add('border-4', 'border-red-500', 'shadow-outline-red');
     }
 
-    let totalCount = parseInt(document.getElementById("totalCount").innerHTML);
-    document.getElementById("totalCount").innerHTML = totalCount + 1;
+    let totalCount1 = parseInt(document.getElementById("totalCount1").innerHTML);
+    document.getElementById("totalCount1").innerHTML = totalCount1 + 1;
+
+    let totalCount2 = parseInt(document.getElementById("totalCount2").innerHTML);
+    document.getElementById("totalCount2").innerHTML = totalCount2 + 1;
 
     setTimeout(() => {
-        if (correct) {
-            clickedElement.classList.remove('border-4', 'border-green-300', 'shadow-outline-green');
-        } else {
-            clickedElement.classList.remove('border-4', 'border-red-300', 'shadow-outline-red');
-        }
         clickedElement.parentElement.removeChild(textElement);
+        if (correct) {
+            clickedElement.classList.remove('border-4', 'border-green-500', 'shadow-outline-green');
+        } else {
+            clickedElement.classList.remove('border-4', 'border-red-500', 'shadow-outline-red');
+        }
+        flagElements.forEach(flag => {
+            flag.classList.add('animate-ping');
+        });
+    }, 500)
+
+    setTimeout(() => {
         displayFlagsWithCountryNames();
-    }, 500);
+        flagsClickable = true;
+    }, 1000);
 }
 
 // Display flags with associated country names when the DOM content is ready
