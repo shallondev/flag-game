@@ -27,18 +27,17 @@ async function displayFlagsWithCountryNames() {
 
     const flagElements = document.querySelectorAll('#flags > div');
 
+    // Remove existing event listeners
+    flagElements.forEach(flagElement => {
+        flagElement.removeEventListener('click', handleUserInput);
+    });
+
     // Store random flag info in flagInfo array
     for (let i = 0; i < flagElements.length; i++) {
         randomIndex = Math.floor(Math.random() * flagsWithCountryNames.length);
         flagInfo.push(flagsWithCountryNames[randomIndex]); // Use push to add flag info to flagInfo array
         flagsWithCountryNames.splice(randomIndex, 1); // Remove selected flag info from flagsWithCountryNames
     }
-
-    // Display 3 random flags
-    flagElements.forEach((flagElement, index) => {
-        flagElement.innerHTML = `<img src="${flagInfo[index].flag}" alt="${flagInfo[index].name} Flag">`;
-        flagElement.classList.add('w-48', 'h-auto');
-    });
 
     // Select a random index from the displayed flags
     randomIndex = Math.floor(Math.random() * flagElements.length); // Reassign randomIndex
@@ -47,16 +46,22 @@ async function displayFlagsWithCountryNames() {
     // Display name in Header
     document.getElementById("countryId").innerText = selectedCountryName;
 
-    return { selectedCountryName, flagElements };
+    // Display 3 random flags
+    flagElements.forEach((flagElement, index) => {
+        flagElement.innerHTML = `<img src="${flagInfo[index].flag}" alt="${flagInfo[index].name} Flag">`;
+        flagElement.classList.add('w-48', 'h-auto');
+        flagElement.addEventListener('click', handleUserInput);
+    });
 }
 
-function handleUserInput(selectedCountryName, event) {
+function handleUserInput(event) {
     // You can handle user input here
     const clickedElement = event.target;
     const clickedCountryName = clickedElement.alt.replace(' Flag', ''); // Extract country name from alt attribute
     
     // Check if the clicked country is the selected country
-    const correct = clickedCountryName === selectedCountryName;
+    const selectedCountryName = document.getElementById("countryId").innerText;
+    let correct = clickedCountryName === selectedCountryName;
 
     // Add a text element above the border to indicate correctness
     const textElement = document.createElement('div');
@@ -70,29 +75,23 @@ function handleUserInput(selectedCountryName, event) {
         clickedElement.classList.add('border-4', 'border-green-300', 'shadow-outline-green');
         let correctCount = parseInt(document.getElementById("correctCount").innerHTML);
         document.getElementById("correctCount").innerHTML = correctCount + 1;
-        let totalCount = parseInt(document.getElementById("totalCount").innerHTML);
-        document.getElementById("totalCount").innerHTML = totalCount + 1;
     } else {
         clickedElement.classList.add('border-4', 'border-red-300', 'shadow-outline-red');
-        let totalCount = parseInt(document.getElementById("totalCount").innerHTML);
-        document.getElementById("totalCount").innerHTML = totalCount + 1;
-    }    
+    }
+
+    let totalCount = parseInt(document.getElementById("totalCount").innerHTML);
+    document.getElementById("totalCount").innerHTML = totalCount + 1;
+
+    setTimeout(() => {
+        if (correct) {
+            clickedElement.classList.remove('border-4', 'border-green-300', 'shadow-outline-green');
+        } else {
+            clickedElement.classList.remove('border-4', 'border-red-300', 'shadow-outline-red');
+        }
+        clickedElement.parentElement.removeChild(textElement);
+        displayFlagsWithCountryNames();
+    }, 500);
 }
 
-
 // Display flags with associated country names when the DOM content is ready
-document.addEventListener("DOMContentLoaded", () => {
-    displayFlagsWithCountryNames().then(({ selectedCountryName, flagElements }) => {
-        // Now you have access to selectedCountryName and flagsWithCountryNames
-        console.log('Selected Country Name:', selectedCountryName);
-        console.log('Flags with Country Names:', flagElements);
-
-        // Add event listener for user input on flag elements
-        flagElements.forEach(flagElement => {
-            flagElement.addEventListener('click', (event) =>
-                handleUserInput(selectedCountryName, event));
-        });
-    }).catch(error => {
-        console.error('Error displaying flags:', error);
-    });
-});
+document.addEventListener("DOMContentLoaded", displayFlagsWithCountryNames);
