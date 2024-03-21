@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flag Game</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Linking the script -->
+    <script src="script.js"></script>
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/e308f5f709.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Nav Bar -->
+    <nav class="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-200">
+        <div class="flex justify-between items-center px-24">
+            <!-- Text on the left -->
+            <div class="text-xl font-bold">Guess the Country</div>
+            
+            <!-- Button on the right -->
+            <button class="bg-white hover:bg-gray-100 text-black font-semibold py-2 m-2 px-4 rounded">
+                <i class="fas fa-moon"></i>
+                Dark Mode
+            </button>
+        </div>
+    </nav>
+
+    <!-- Count Section -->
+    <section class="mt-16 mx-48">
+        <div class="flex items-center justify-between mb-4 px-20 py-10">
+            <!-- Count -->
+            <div class="relative">
+                <div class="text-xl font-bold">Correct: <span id="correctCount">0</span></div>
+            </div>
+
+            <p id="countryId" class="text-xl font-bold">Error Loading Countries...</p>
+            
+            <!-- Total Count -->
+            <div class="text-xl font-bold">Total: <span id="totalCount">0</span></div>
+        </div>
+    </section>
+
+    <!-- Flag Guess Section -->
+    <section class="mt-48 mx-48">
+        <div class="flex items-center justify-between mb-4 px-20 py-10" id="flags">
+            <div id="flag0" class="shadow-xl transition duration-300 ease-in-out transform hover:scale-105 checkbox cursor-pointer hover:border-blue-500 focus:outline-none focus:shadow-outline focus:border-blue-50"></div>
+            <div id="flag1" class="shadow-xl transition duration-300 ease-in-out transform hover:scale-105 checkbox cursor-pointer hover:border-blue-500 focus:outline-none focus:shadow-outline focus:border-blue-50"></div>
+            <div id="flag2" class="shadow-xl transition duration-300 ease-in-out transform hover:scale-105 checkbox cursor-pointer hover:border-blue-500 focus:outline-none focus:shadow-outline focus:border-blue-50"></div>
+        </div>
+    </section>
+
+</body>
+</html>
